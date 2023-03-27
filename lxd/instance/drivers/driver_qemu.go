@@ -2126,8 +2126,6 @@ func (d *qemu) FirmwarePath() string {
 	if shared.PathExists(d.legacy2MBNvramPath()) {
 		fvCode = "OVMF_CODE.fd"
 	}
-	logger.Errorf("legacy2MBNvramPath: %v", d.legacy2MBNvramPath())
-	logger.Errorf("FirmwarePath: %v", filepath.Join(d.ovmfPath(), fvCode))
 	return filepath.Join(d.ovmfPath(), fvCode)
 }
 
@@ -6987,7 +6985,7 @@ func (d *qemu) checkFeatures(hostArch int, qemuPath string) ([]string, error) {
 	}
 
 	if d.architectureSupportsUEFI(hostArch) {
-		qemuArgs = append(qemuArgs, "-bios", d.FirmwarePath())
+		qemuArgs = append(qemuArgs, "-drive", fmt.Sprintf("if=pflash,format=raw,unit=0,file=%s,readonly=on", d.FirmwarePath()))
 	}
 
 	var stderr bytes.Buffer
