@@ -2126,6 +2126,8 @@ func (d *qemu) FirmwarePath() string {
 	if shared.PathExists(d.legacy2MBNvramPath()) {
 		fvCode = "OVMF_CODE.fd"
 	}
+	d.logger.Warnf("legacy2MBNvramPath: %v", d.legacy2MBNvramPath())
+	d.logger.Warnf("FirmwarePath: %v", filepath.Join(d.ovmfPath(), fvCode))
 	return filepath.Join(d.ovmfPath(), fvCode)
 }
 
